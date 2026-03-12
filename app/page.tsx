@@ -1,31 +1,24 @@
 "use client"
-import { useState, useEffect } from 'react'
-import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, BarChart, Bar, Cell, AreaChart, Area } from 'recharts'
-import { Search, Thermometer, CloudRain, Wind, Sun, AlertTriangle, MapPin } from 'lucide-react'
+import { useState } from 'react'
+// ... (your imports)
 
-export default function ProfessionalDashboard() {
-  const [data, setData] = useState(null)
-  const [city, setCity] = useState("London")
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState("")
+export default function WeatherDashboard() {
+  const [data, setData] = useState<any>(null) // Added <any>
+  const [loading, setLoading] = useState<boolean>(false) // Added <boolean>
 
-  // Update this with your REAL Render URL
-  const BACKEND_URL = "https://weather-backend-p00a.onrender.com" 
-
-  const fetchData = async (searchCity) => {
+  async function searchCity(city: any) { // Added : any
     setLoading(true)
-    setError("")
     try {
-      const res = await fetch(`${BACKEND_URL}/weather?city=${searchCity}`)
-      if (!res.ok) throw new Error("City not found")
+      const res = await fetch(`https://your-backend-url.onrender.com/weather?city=${city}`)
       const json = await res.json()
       setData(json)
     } catch (err) {
-      setError("Could not find data for that location.")
-    } finally {
-      setLoading(false)
+      console.error(err)
     }
+    setLoading(false)
   }
+  
+  // ... rest of your code
 
   // Load London by default
   useEffect(() => { fetchData("London") }, [])
