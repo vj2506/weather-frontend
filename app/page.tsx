@@ -92,4 +92,40 @@ export default function WeatherDashboard() {
                   <AreaChart data={data.daily.time.map((t: any, i: any) => ({t, temp: data.daily.temperature_2m_max[i]}))}>
                     <XAxis dataKey="t" hide />
                     <YAxis hide domain={['dataMin - 5', 'dataMax + 5']} />
-                    <Tooltip contentStyle={{backgroundColor: '
+                    <Tooltip contentStyle={{backgroundColor: '#0f172a', border: 'none', borderRadius: '12px'}} />
+                    <Area type="monotone" dataKey="temp" stroke="#3b82f6" fillOpacity={0.2} fill="#3b82f6" strokeWidth={3} />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            <div className="bg-slate-900/40 border border-slate-800 p-6 rounded-3xl h-[500px] flex flex-col">
+              <h2 className="text-xl font-semibold mb-4">📜 Historical Log</h2>
+              <div className="flex-1 overflow-y-auto pr-2 space-y-3">
+                {data.daily.time.map((time: any, i: any) => (
+                  <div key={i} className="flex justify-between items-center p-3 bg-slate-800/30 rounded-xl border border-slate-800/50">
+                    <span className="text-sm font-medium">{time}</span>
+                    <span className="text-blue-400 font-mono">{data.daily.temperature_2m_max[i]}°</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </main>
+      )}
+    </div>
+  )
+}
+
+function MetricBox({ icon, label, value, sub }: any) {
+  return (
+    <div className="bg-slate-900/40 border border-slate-800 p-5 rounded-3xl flex items-center gap-5">
+      <div className="h-12 w-12 bg-blue-500/10 rounded-2xl flex items-center justify-center text-blue-500">{icon}</div>
+      <div>
+        <p className="text-slate-500 text-xs uppercase tracking-wider">{label}</p>
+        <p className="text-2xl font-bold text-white">{value}</p>
+        <p className="text-slate-600 text-[10px]">{sub}</p>
+      </div>
+    </div>
+  )
+}
