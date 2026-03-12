@@ -6,7 +6,7 @@ import { Search, Thermometer, CloudRain, Wind, Sun, AlertTriangle, MapPin } from
 
 export default function WeatherDashboard() {
   const [data, setData] = useState<any>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<any>(false);
 
   // 1. Define the function first
   const fetchData = async (city: any) => {
@@ -48,7 +48,7 @@ export default function WeatherDashboard() {
           <input 
             className="w-full bg-slate-900/50 border border-slate-800 p-3.5 pl-12 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 transition-all text-white"
             placeholder="Search city (e.g. Dubai, Tokyo)..."
-            onKeyDown={(e) => e.key === 'Enter' && fetchData(e.target.value)}
+            onKeyDown={(e: any) => e.key === 'Enter' && fetchData(e.target.value)}
           />
         </div>
       </header>
