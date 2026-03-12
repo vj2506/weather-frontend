@@ -7,14 +7,22 @@ import { Search, Thermometer, CloudRain, Wind, Sun, AlertTriangle, MapPin } from
 export default function WeatherDashboard() {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState<any>(false);
+  const [error, setError] = useState<any>("");
 
   // 1. Define the function first
-  const fetchData = async (city: any) => {
+  const fetchData = async (searchCity: any) => {
     setLoading(true);
-    const res = await fetch(`https://your-backend-url.onrender.com/weather?city=${city}`);
-    const json = await res.json();
-    setData(json);
-    setLoading(false);
+	setError(""); // Clear any old errors
+	try {
+		const res = await fetch(`https://your-backend-url.onrender.com/weather?city=${searchCity}`);
+		if (!res.ok) throw new Error("City not found");
+		const json = await res.json();
+		setData(json);
+	} catch (err: any) {
+		setError("Could not find data for that location."); // Set the error message
+	} finally {
+		setLoading(false);
+	}
   };
 
   // 2. Then call it in useEffect
