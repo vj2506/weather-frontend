@@ -1,5 +1,7 @@
 "use client"
 import { useState, useEffect } from 'react'
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts'
+import { Search, Thermometer, CloudRain, Wind, Sun, AlertTriangle, MapPin } from 'lucide-react'
 // ... (your imports)
 
 export default function WeatherDashboard() {
