@@ -3,22 +3,22 @@ import { useState, useEffect } from 'react'
 // ... (your imports)
 
 export default function WeatherDashboard() {
-  const [data, setData] = useState<any>(null) // Added <any>
-  const [loading, setLoading] = useState<boolean>(false) // Added <boolean>
+  const [data, setData] = useState<any>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  async function searchCity(city: any) { // Added : any
-    setLoading(true)
-    try {
-      const res = await fetch(`https://your-backend-url.onrender.com/weather?city=${city}`)
-      const json = await res.json()
-      setData(json)
-    } catch (err) {
-      console.error(err)
-    }
-    setLoading(false)
-  }
-  
-  // ... rest of your code
+  // 1. Define the function first
+  const fetchData = async (city: any) => {
+    setLoading(true);
+    const res = await fetch(`https://your-backend-url.onrender.com/weather?city=${city}`);
+    const json = await res.json();
+    setData(json);
+    setLoading(false);
+  };
+
+  // 2. Then call it in useEffect
+  useEffect(() => {
+    fetchData("London");
+  }, []);
 
   // Load London by default
   useEffect(() => { fetchData("London") }, [])
