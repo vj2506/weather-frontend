@@ -1,5 +1,5 @@
 "use client"
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 // ... (your imports)
 
 export default function WeatherDashboard() {
@@ -24,7 +24,7 @@ export default function WeatherDashboard() {
   useEffect(() => { fetchData("London") }, [])
 
   // Helper for "Warming Stripes" colors
-  const getStripeColor = (temp) => {
+  const getStripeColor = (temp: any) => {
     if (temp > 25) return "#ef4444" // Red
     if (temp > 15) return "#f97316" // Orange
     return "#3b82f6" // Blue
