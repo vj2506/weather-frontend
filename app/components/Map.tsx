@@ -8,7 +8,9 @@ import { fixMapIcon } from '../map-fix'
 function ChangeView({ center }: any) {
   const map = useMap();
   useEffect(() => {
-    map.setView(center, 10);
+    if (center) {
+      map.setView(center, 10);
+    }
   }, [center, map]);
   return null;
 }
@@ -17,14 +19,10 @@ export default function Map({ lat, lon }: any) {
   useEffect(() => { fixMapIcon() }, [])
 
   // Ensure lat and lon are treated as numbers
-  const position: [number, number] = [Number(lat), Number(lon)];
+  const position: [number, number] = [Number(lat) || 0, Number(lon) || 0];
 
   return (
     <div style={{ height: '100%', width: '100%' }}>
-      {/* 
-        We use {...({ ... } as any)} to bypass the 
-        TypeScript error regarding 'center' 
-      */}
       <MapContainer 
         {...({
           center: position,
@@ -33,10 +31,14 @@ export default function Map({ lat, lon }: any) {
         } as any)}
       >
         <TileLayer
-          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-          attribution='&copy; OpenStreetMap contributors'
+          {...({
+            url: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+            attribution: '&copy; OpenStreetMap contributors'
+          } as any)}
         />
-        <Marker position={position} />
+        
+        <Marker {...({ position: position } as any)} />
+        
         <ChangeView center={position} />
       </MapContainer>
     </div>
