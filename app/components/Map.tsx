@@ -1,14 +1,12 @@
 "use client"
-import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet'
+import { MapContainer, TileLayer, CircleMarker, useMap } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import { useEffect } from 'react'
-import { fixMapIcon } from '../map-fix'
 
-// This component moves the map view when lat/lon change
 function ChangeView({ center }: any) {
   const map = useMap();
   useEffect(() => {
-    if (center) {
+    if (center && center[0] !== 0) {
       map.setView(center, 10);
     }
   }, [center, map]);
@@ -16,18 +14,16 @@ function ChangeView({ center }: any) {
 }
 
 export default function Map({ lat, lon }: any) {
-  useEffect(() => { fixMapIcon() }, [])
-
-  // Ensure lat and lon are treated as numbers
   const position: [number, number] = [Number(lat) || 0, Number(lon) || 0];
 
   return (
-    <div style={{ height: '100%', width: '100%' }}>
+    <div style={{ height: '100%', width: '100%', background: '#0f172a' }}>
       <MapContainer 
         {...({
           center: position,
           zoom: 10,
-          style: { height: '100%', width: '100%', borderRadius: '1.5rem' }
+          scrollWheelZoom: false,
+          style: { height: '100%', width: '100%' }
         } as any)}
       >
         <TileLayer
@@ -37,7 +33,18 @@ export default function Map({ lat, lon }: any) {
           } as any)}
         />
         
-        <Marker {...({ position: position } as any)} />
+        {/* Using CircleMarker instead of Marker avoids the "Missing Icon" error completely */}
+        <CircleMarker 
+          {...({
+            center: position,
+            radius: 8,
+            fillColor: "#3b82f6",
+            color: "#fff",
+            weight: 2,
+            opacity: 1,
+            fillOpacity: 0.8
+          } as any)} 
+        />
         
         <ChangeView center={position} />
       </MapContainer>
